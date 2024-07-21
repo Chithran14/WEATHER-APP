@@ -55,16 +55,14 @@
 </head>
 <body>
   <center><h2>Weather App</h2></center>
-    <input type="text" id = "weather" placeholder="enter the lat">
-    <input type="text" id = "weather1" placeholder="enter the lon">
+    <input type="text" id = "weather" placeholder="enter the cityname">
     <button onclick="request()">submit</button>
     <div id="result"></div>
     <script>
           function request(){
             var apikey = 'a1a03b87daa425535e7893c429cf9bfb'
             var lat = document.getElementById('weather').value;
-            var lon = document.getElementById('weather1').value;
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${lat}&appid=${apikey}`)
             .then(function(response){
                 if(!response.ok){
                     throw new Error("network is error");
@@ -74,11 +72,13 @@
             .then((response)=>{
               console.log(response);
                 var result = document.getElementById('result');
+                var a = `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
                 result.innerHTML = `<div><h3>${response.name}</h3><br>
+                                    <img src="${a}"" alt="loading" /> <br> 
                                     Humidity is :${response.main.humidity}<br>
                                     weather is :${response.weather[0].description}<br>
                                     wind speed is : ${response.wind.speed}<br>
-                                    temperature is : ${response.main.temp} celcius <br>
+                                    temperature is : ${response.main.temp} Kelvin <br>
                                     </div>`
             })
           }
